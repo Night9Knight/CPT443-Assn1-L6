@@ -1,0 +1,9 @@
+// DFA
+digraph cba {
+	fake [style=invis]
+	node [color=red]
+	fake -> <s>
+	<s> [label="\<s\>" root=true]
+	<s> -> c [label=c]
+	c -> "<REJECT>" [label=b]
+}

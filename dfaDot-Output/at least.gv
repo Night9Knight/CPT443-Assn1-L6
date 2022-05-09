@@ -1,0 +1,16 @@
+// DFA
+digraph "at least" {
+	fake [style=invis]
+	node [color=green]
+	fake -> <s>
+	<s> [label="\<s\>" root=true]
+	at_least [shape=doublecircle]
+	<s> -> a [label=a]
+	a -> at [label=t]
+	at -> at_ [label=_]
+	at_ -> at_l [label=l]
+	at_l -> at_le [label=e]
+	at_le -> at_lea [label=a]
+	at_lea -> at_leas [label=s]
+	at_leas -> at_least [label=t]
+}

@@ -1,0 +1,12 @@
+// DFA
+digraph very {
+	fake [style=invis]
+	node [color=green]
+	fake -> "<s>"
+	"<s>" [root=true]
+	very [shape=doublecircle]
+	"<s>" -> v [label=v]
+	v -> ve [label=e]
+	ve -> ver [label=r]
+	ver -> very [label=y]
+}
