@@ -25,4 +25,6 @@ L6. English Conjunctions/Adverb/Adjectives Finder
 Example: and, most, good, bad, pretty, dirty, blue etc. 
 
 ## How to run
-
+```
+<FolderPath>/Scripts/python.exe main.py
+```
