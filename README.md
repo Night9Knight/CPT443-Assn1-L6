@@ -26,5 +26,10 @@ Example: and, most, good, bad, pretty, dirty, blue etc.
 
 ## How to run
 ```
-<FolderPath>/Scripts/python.exe main.py
+<FolderPath>/Scripts/activate
+cd <FolderPath>
+pip install -r requirements.txt
+```
+```
+python main.py
 ```
