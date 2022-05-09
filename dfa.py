@@ -135,7 +135,7 @@ class DFA:
             lower_letter = letter.lower()
             if lower_letter not in self.transition_dict[current_state]:
                 # Reset the current state if whitespace is encountered, else force it to skip the letter until the next whitespace
-                if lower_letter.isspace():
+                if not lower_letter.isalpha():
                     current_state = self.start_state
                     skipLetter = False
                 else:
@@ -148,7 +148,7 @@ class DFA:
             current_state = self.transition_dict[current_state][lower_letter]
 
             # Check if current state is accepted (and make sure the current state is not part of a word)
-            if current_state in self.accept_states and (formatInputString[i+1].lower().isspace() or formatInputString[i+1]=='.'):
+            if current_state in self.accept_states and not formatInputString[i+1].isalnum() and formatInputString[i+1] not in ['-','_']:
                 if current_state in acceptedWords:
                     acceptedWords[current_state].append((i-len(current_state)+1,i))
                 else:

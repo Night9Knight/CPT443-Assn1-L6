@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.scrolledtext import ScrolledText
+from tkinter import filedialog
 from dfa import DFA
 
 class App(tk.Tk):
@@ -36,13 +37,15 @@ class App(tk.Tk):
         inputBoxLbl = tk.Label(master=self.inputFrame, text="Input text:", font=("Helvetica", 10, 'bold'))
         self.inputBox = ScrolledText(master=self.inputFrame)
         buttonFrame = tk.Frame(master=self.inputFrame)
+        loadFileBtn = tk.Button(master=buttonFrame, text="Load text file", command=self.loadFile)
         submitBtn = tk.Button(master=buttonFrame, text="Submit", command=self.submitInput)
         clearBtn = tk.Button(master=buttonFrame, text="Clear", command=self.clearInput)
         inputBoxLbl.pack(side=tk.TOP, anchor=tk.W)
         self.inputBox.pack(expand=True, fill='both')
         buttonFrame.pack(side=tk.BOTTOM, anchor=tk.W, fill='both', expand=True)
-        submitBtn.pack(side=tk.LEFT, anchor=tk.W)
-        clearBtn.pack(side=tk.LEFT, anchor=tk.W, padx=5)
+        loadFileBtn.pack(side=tk.LEFT, anchor=tk.W)
+        submitBtn.pack(side=tk.LEFT, anchor=tk.W, padx=5)
+        clearBtn.pack(side=tk.LEFT, anchor=tk.W)
     
     def init_outputFrames(self):
         # Create the widgets for second main frame
@@ -85,10 +88,10 @@ class App(tk.Tk):
 
     def submitInput(self):
         inputString = self.inputBox.get("1.0", "end")
-        self.setPositionTextBox("Running the code...")
-        self.setOccurenceTextBox("Running the code...")
-        self.textList.set(['Running the code...'])
         if inputString.strip()!="":
+            self.setPositionTextBox("Running the code...")
+            self.setOccurenceTextBox("Running the code...")
+            self.textList.set(['Running the code...'])
             self.accepted_words, occurrences, _ = self.dfa.matchInputString(inputString)
             positionList = []
             occurenceList = []
@@ -112,6 +115,13 @@ class App(tk.Tk):
         self.setPositionTextBox("Waiting for input...")
         self.setOccurenceTextBox("Waiting for input...")
         self.textList.set(['Waiting for input...'])
+    
+    def loadFile(self):
+        filepath = filedialog.askopenfilename()
+        if filepath:
+            with open(filepath, 'r') as f:
+                self.inputBox.delete("1.0", "end")
+                self.inputBox.insert("1.0", f.read())        
 
     def setPositionTextBox(self, text):
         self.positionTextBox.config(state='normal')
