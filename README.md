@@ -1,7 +1,7 @@
 # CPT443-Assn1-L6
 A simple DFA application written in Python which could match a list of adverbs (up to what is covered in WordNet)
 
-# Requirements
+## Requirements
 Write a well-structured, well-documented recognizer Deterministic Finite Automata (DFA) for the
 assigned language. The program must be based on a complete DFA for the language, but you can
 terminate the program on entering a trap state. You MUST process one character at a time from left
@@ -23,3 +23,6 @@ L = {w ∈ Σ * | w contain substring “2 litres”, “1kg”, “100%” ...}
 
 L6. English Conjunctions/Adverb/Adjectives Finder
 Example: and, most, good, bad, pretty, dirty, blue etc. 
+
+## How to run
+
