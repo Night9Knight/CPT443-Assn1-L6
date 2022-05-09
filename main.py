@@ -95,20 +95,30 @@ class App(tk.Tk):
             self.accepted_words, occurrences, _ = self.dfa.matchInputString(inputString)
             positionList = []
             occurenceList = []
-            
-            for word, coords in self.accepted_words.items():
-                positionList.append(f'Word "{word}" is accepted at position {coords}')
-                for coord in coords:
-                    self.inputBox.tag_add("bold", f"1.0+{coord[0]}c", f"1.0+{coord[1]+1}c")
-            
-            for word, count in occurrences.items():
-                occurenceList.append(f'Word "{word}" occurs {count} times')
-            
-            self.textList.set([word for word in occurrences.keys()])
 
-            self.inputBox.tag_config("bold", foreground="green", font=("Times New Roman", 10, "bold"))
-            self.setPositionTextBox("\n".join(positionList))
-            self.setOccurenceTextBox("\n".join(occurenceList))
+            # Check if the output dictionaries are empty
+            if not self.accepted_words and not occurrences:
+                self.setPositionTextBox("No matches found.")
+                self.setOccurenceTextBox("No matches found.")
+                self.textList.set(['No matches found.'])
+            else:
+                for word, coords in self.accepted_words.items():
+                    positionList.append(f'Word "{word}" is accepted at position {coords}')
+                    for coord in coords:
+                        self.inputBox.tag_add("bold", f"1.0+{coord[0]}c", f"1.0+{coord[1]+1}c")
+                
+                for word, count in occurrences.items():
+                    occurenceList.append(f'Word "{word}" occurs {count} times')
+                
+                self.textList.set([word for word in occurrences.keys()])
+
+                self.inputBox.tag_config("bold", foreground="green", font=("Courier", 10, "bold"))
+                self.setPositionTextBox("\n".join(positionList))
+                self.setOccurenceTextBox("\n".join(occurenceList))
+        else:
+            self.setPositionTextBox("No input text provided.")
+            self.setOccurenceTextBox("No input text provided.")
+            self.textList.set(['No input text provided.'])
     
     def clearInput(self):
         self.inputBox.delete("1.0", "end")
