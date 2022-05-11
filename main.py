@@ -160,6 +160,7 @@ class App(tk.Tk):
                 coords = self.accepted_words[word]
                 for coord in coords:
                     self.inputBox.tag_add("highlight", f"1.0+{coord[0]}c", f"1.0+{coord[1]+1}c")
+                self.inputBox.see(f"1.0+{coords[0][0]}c")
         
         self.inputBox.tag_config("highlight", background="yellow")
 

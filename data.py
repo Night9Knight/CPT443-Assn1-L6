@@ -10,9 +10,9 @@ all_advs = []
 for synset in wn.all_synsets('r'):
     all_advs.extend(synset.lemma_names())
 
-# Add new adverbs which the dot symbol is removed
-new_advs = [adv.replace('.','') for adv in all_advs if '.' in adv]
-all_advs.extend(new_advs)
+# # Add new adverbs which the dot symbol is removed
+# new_advs = [adv.replace('.','') for adv in all_advs if '.' in adv]
+# all_advs.extend(new_advs)
 
 # # Replace underscore with space
 # all_advs = [adv.replace('_',' ') for adv in all_advs]
@@ -23,12 +23,13 @@ with open('adverbs_raw.txt', 'w') as f:
         f.write(adv + '\n')
 
 # Use regex to filter out adverbs that contains dots or other unwanted characters
-filtered_all_advs = set([adv.lower() for adv in all_advs if re.search(r"[!#\"$%&()*+,\/:;<=>?@\[\\\]^`{|}~]", adv) is None])
+filtered_all_advs = set([adv.strip().lower() for adv in all_advs if re.search(r"[!#\"$%&()*+,\/:;<=>?@\[\\\]^`{|}~]", adv) is None])
+
 print(len(filtered_all_advs))
 
 # Write word list to file
 with open('adverbs.txt', 'w') as f:
-    for adv in filtered_all_advs:
+    for adv in sorted(filtered_all_advs, key=len):
         f.write(adv + '\n')
 
 # Write list of adverbs with 2 or more words to file
