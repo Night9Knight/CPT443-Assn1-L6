@@ -3,10 +3,10 @@ import graphviz
 import networkx as nx
 import matplotlib.pyplot as plt
 
-# Get first 30 adverbs
+# Get first 15 adverbs
 advs_list = []
 with open('adverbs.txt') as f:
-    advs_list = [word.strip() for word in f.readlines()][:30]
+    advs_list = [word.strip() for word in f.readlines()][:15]
     print(len(advs_list))
 
 # Run through list of adverbs and build a dictionary
@@ -35,11 +35,11 @@ dfa_dot.node('fake', style='invis')
 dfa_dot.edge('fake', graphviz.escape('<s>'))
 dfa_dot.node(graphviz.escape('<s>'), root='true')
 for transition in advs_transition_dict:
-    if not advs_transition_dict[transition]:
+    if not advs_transition_dict[transition] or transition in advs_list:
         dfa_dot.node(transition, shape='doublecircle')
     
     for next_state in advs_transition_dict[transition]:
-        dfa_dot.edge(graphviz.escape(transition), graphviz.escape(advs_transition_dict[transition][next_state]), label=next_state)
+        dfa_dot.edge(graphviz.escape(transition), graphviz.escape(advs_transition_dict[transition][next_state]), label=graphviz.escape(next_state))
 dfa_dot.render(directory='dfaDot-Output', view=True)
 
 # # Use NetworkX to create a graph

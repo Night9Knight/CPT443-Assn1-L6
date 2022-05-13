@@ -24,15 +24,6 @@ class DFA:
         for word in multiwords:
             input = re.sub(word.replace('_',' '), word, input, flags=re.IGNORECASE)
         
-        # # Remove dot (.) symbols which is not part of a word
-        # input = re.sub(r"\.(?=\s)", '', input)
-
-        # # Remove other punctuations symbol
-        # input = re.sub(r"[!#\"$%&()*+,\/:;<=>?@\[\\\]^`{|}~]", "", input)
-
-        # # Replace newlines with spaces
-        # input = re.sub(r"\n", " ", input)
-        
         return input
     
     def __formatWord(self, word):
@@ -131,11 +122,11 @@ class DFA:
 
         current_state = self.start_state
 
-        for i, letter in enumerate(formatInputString):
-            lower_letter = letter.lower()
-            if lower_letter not in self.transition_dict[current_state]:
-                # Reset the current state if whitespace is encountered, else force it to skip the letter until the next whitespace
-                if not lower_letter.isalpha():
+        for i, letter in enumerate(formatInputString.lower()):
+            # lower_letter = letter.lower()
+            if letter not in self.transition_dict[current_state]:
+                # Reset the current state if whitespace or invalid symbol is encountered, else force it to skip the letter until the next whitespace or invalid symbol
+                if not letter.isalpha():
                     current_state = self.start_state
                     skipLetter = False
                 else:
@@ -145,7 +136,7 @@ class DFA:
             if skipLetter:
                 continue
             
-            current_state = self.transition_dict[current_state][lower_letter]
+            current_state = self.transition_dict[current_state][letter]
 
             # Check if current state is accepted (and make sure the current state is not part of a word)
             if current_state in self.accept_states and not formatInputString[i+1].isalnum() and formatInputString[i+1] not in ['-','_']:

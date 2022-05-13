@@ -112,7 +112,7 @@ class App(tk.Tk):
                 
                 self.textList.set([word for word in occurrences.keys()])
 
-                self.inputBox.tag_config("bold", foreground="green", font=("Courier", 10, "bold"))
+                self.inputBox.tag_config("bold", foreground="green", font=("Courier", 12, "bold"))
                 self.setPositionTextBox("\n".join(positionList))
                 self.setOccurenceTextBox("\n".join(occurenceList))
         else:
