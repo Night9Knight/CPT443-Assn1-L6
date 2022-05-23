@@ -33,12 +33,9 @@ Asian Nations, the East Asia Summit and the Organisation of Islamic Cooperation,
 Asia-Pacific Economic Cooperation, the Commonwealth of Nations, and the Non-Aligned Movement.'''
 
 # def matchInputString(inputStr):
-accepted_words, occurrences, boldedText = dfa.matchInputString(inputStr)
+accepted_words, occurrences = dfa.matchInputString(inputStr)
 for word, coords in accepted_words.items():
     print(f'Word "{word}" is accepted at position {coords}')
 
 for word, occurence in occurrences.items():
     print(f'"{word}" occured {occurence} times')
-
-with open('dfaOutput.txt', 'w') as outputFile:
-    outputFile.write(boldedText)

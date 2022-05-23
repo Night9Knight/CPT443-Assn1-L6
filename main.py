@@ -37,15 +37,19 @@ class App(tk.Tk):
         inputBoxLbl = tk.Label(master=self.inputFrame, text="Input text:", font=("Helvetica", 10, 'bold'))
         self.inputBox = ScrolledText(master=self.inputFrame)
         buttonFrame = tk.Frame(master=self.inputFrame)
+        buttonFrame2 = tk.Frame(master=self.inputFrame)
         loadFileBtn = tk.Button(master=buttonFrame, text="Load text file", command=self.loadFile)
         submitBtn = tk.Button(master=buttonFrame, text="Submit", command=self.submitInput)
         clearBtn = tk.Button(master=buttonFrame, text="Clear", command=self.clearInput)
+        self.showDFABtn = tk.Button(master=buttonFrame2, text="Show Sample DFA", command=self.showDFA)
         inputBoxLbl.pack(side=tk.TOP, anchor=tk.W)
         self.inputBox.pack(expand=True, fill='both')
-        buttonFrame.pack(side=tk.BOTTOM, anchor=tk.W, fill='both', expand=True)
+        buttonFrame2.pack(side=tk.BOTTOM, anchor=tk.W, fill='both')
+        buttonFrame.pack(side=tk.BOTTOM, anchor=tk.W, fill='both',pady=20)
         loadFileBtn.pack(side=tk.LEFT, anchor=tk.W)
         submitBtn.pack(side=tk.LEFT, anchor=tk.W, padx=5)
         clearBtn.pack(side=tk.LEFT, anchor=tk.W)
+        self.showDFABtn.pack(side=tk.LEFT, anchor=tk.W)
     
     def init_outputFrames(self):
         # Create the widgets for second main frame
@@ -88,11 +92,13 @@ class App(tk.Tk):
 
     def submitInput(self):
         inputString = self.inputBox.get("1.0", "end")
+        self.inputBox.tag_delete("highlight")
+        self.inputBox.tag_delete("bold")
         if inputString.strip()!="":
             self.setPositionTextBox("Running the code...")
             self.setOccurenceTextBox("Running the code...")
             self.textList.set(['Running the code...'])
-            self.accepted_words, occurrences, _ = self.dfa.matchInputString(inputString)
+            self.accepted_words, occurrences = self.dfa.matchInputString(inputString)
             positionList = []
             occurenceList = []
 
@@ -163,6 +169,21 @@ class App(tk.Tk):
                 self.inputBox.see(f"1.0+{coords[0][0]}c")
         
         self.inputBox.tag_config("highlight", background="yellow")
+    
+    def showDFA(self):
+        self.showDFABtn.config(state='disabled')
+        self.showDFAWindow = tk.Toplevel(self)
+        self.showDFAWindow.title("Sample DFA")
+        self.showDFAWindow.protocol("WM_DELETE_WINDOW", self.onShowDFAClosing)
+
+        photo = tk.PhotoImage(file='./dfaDot-Output/DFA.gv.png')
+        imageLabel = tk.Label(master=self.showDFAWindow, image=photo)
+        imageLabel.image = photo
+        imageLabel.pack(fill='both', expand=True)
+    
+    def onShowDFAClosing(self):
+        self.showDFABtn.config(state='normal')
+        self.showDFAWindow.destroy()
 
 
 if __name__ == "__main__":

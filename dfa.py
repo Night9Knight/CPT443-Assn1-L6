@@ -26,6 +26,7 @@ class DFA:
         
         return input
     
+    # Not used in the main text matching function
     def __formatWord(self, word):
         # Remove dot (.) symbols which is not part of a word
         word = re.sub(r"\.(?=\s)", '', word)
@@ -35,6 +36,7 @@ class DFA:
 
         return word
     
+    # Formats the input string to wrap around the accepted words with html tag to indicate it is bolded
     def __boldAcceptedWords(self, inputString, acceptedWords):
         acceptedWordList = set([word for word in acceptedWords])
         print(acceptedWordList)
@@ -43,7 +45,7 @@ class DFA:
         
         return inputString
 
-    
+    # Only usable for one word
     def accepts(self, wordString, returnTransitions=False):
         transitions = []
         previous_state = ""
@@ -69,6 +71,7 @@ class DFA:
 
         return current_state in self.accept_states
     
+    # Only usable for one word
     def accepts_with_graph(self, wordString):
         accepts, transitions, word = self.accepts(wordString, returnTransitions=True)
 
@@ -91,6 +94,7 @@ class DFA:
         
         dfa_dot.render(directory='dfaDot-Output', view=True)
     
+    # Not used anymore because unable to track position properly
     def matchInputString2(self, inputString):
         formatInputString = self.__formatInputString(inputString.lower())
         wordList = formatInputString.split()
@@ -110,6 +114,7 @@ class DFA:
             i += len(wordList[0])+1
             wordList.pop(0)
 
+        # Format the accepted words (not involved in the GUI)
         boldedText = self.__boldAcceptedWords(inputString, acceptedWords)
         
         return acceptedWords, wordOccurrence, boldedText
@@ -125,7 +130,7 @@ class DFA:
         for i, letter in enumerate(formatInputString.lower()):
             # lower_letter = letter.lower()
             if letter not in self.transition_dict[current_state]:
-                # Reset the current state if whitespace or invalid symbol is encountered, else force it to skip the letter until the next whitespace or invalid symbol
+                # Reset the current state if the current letter is not a letter, else force it to skip the letter until the next whitespace or punctuation symbol
                 if not letter.isalpha():
                     current_state = self.start_state
                     skipLetter = False
@@ -149,9 +154,7 @@ class DFA:
                 else:
                     wordOccurrence[current_state] = 1
                 current_state = self.start_state
-        
-        boldedText = self.__boldAcceptedWords(formatInputString, acceptedWords)
 
-        return acceptedWords, wordOccurrence, boldedText
+        return acceptedWords, wordOccurrence
 
 
